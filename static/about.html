@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem("cg-theme"); } catch (e) {}
+    if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    document.documentElement.dataset.theme = t;
+  })();
+</script>
+<title>About the data · Bankfull and Mean-flow Channel Geometry for CONUS</title>
+<link rel="icon" href="/static/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #EDF3F7; --bg2: #F1F1E4; --card: #FFFFFF; --text: #1E2F44; --muted: #52647A;
+    --head: #2B4263; --accent: #7A8547; --link: #2E6A8C; --line: #DCE4EC; --code: #F1F5F9;
+  }
+  html[data-theme=dark] {
+    --bg: #152233; --bg2: #1E2418; --card: #1E2C3E; --text: #E3ECF5; --muted: #A3B3C4;
+    --head: #97BED3; --accent: #CBBE7F; --link: #A9CCE0; --line: #34475E; --code: #16212F;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: "Figtree", "Segoe UI", Arial, sans-serif; font-size: 16.5px; line-height: 1.6;
+    color: var(--text); min-height: 100vh; background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+  }
+  a { color: var(--link); }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 28px 22px 60px; }
+  header { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+  header img { width: 64px; height: 64px; border-radius: 50%; box-shadow: 0 2px 8px rgba(43,66,99,.18); }
+  header h1 { margin: 0; font-size: 26px; line-height: 1.2; color: var(--head); font-weight: 800; letter-spacing: -0.01em; }
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 10px 0 22px; flex-wrap: wrap; }
+  .back { font-weight: 600; text-decoration: none; }
+  .back:hover { text-decoration: underline; }
+  nav.toc { display: flex; flex-wrap: wrap; gap: 8px; }
+  nav.toc a {
+    font-size: 14px; font-weight: 600; text-decoration: none; color: var(--head);
+    background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px;
+  }
+  nav.toc a:hover { border-color: var(--accent); }
+  section {
+    background: var(--card); border-radius: 16px; padding: 22px 26px; margin: 16px 0;
+    box-shadow: 0 2px 10px rgba(43,66,99,.08);
+  }
+  html[data-theme=dark] section { box-shadow: 0 2px 12px rgba(0,0,0,.35); }
+  h2 { margin: 0 0 10px; font-size: 20px; color: var(--head); }
+  h3 { margin: 18px 0 6px; font-size: 16.5px; color: var(--head); }
+  p { margin: 8px 0; }
+  ol, ul { margin: 8px 0; padding-left: 22px; }
+  li { margin: 4px 0; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 15px; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--head); font-weight: 700; }
+  .tablewrap { overflow-x: auto; }
+  code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 14px; background: var(--code); padding: 1px 5px; border-radius: 5px; }
+  .cite {
+    background: var(--code); border-left: 4px solid var(--accent); border-radius: 8px;
+    padding: 12px 14px; margin: 10px 0; font-size: 15.5px;
+  }
+  .contact { border: 2px solid var(--accent); }
+  .contact a.mail { font-weight: 700; font-size: 17px; }
+  .theme-toggle {
+    width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+    background: var(--card); color: var(--head); border: 1px solid var(--line); flex: none;
+  }
+  .theme-toggle .i-sun { display: none; }
+  html[data-theme=dark] .theme-toggle { color: #CBBE7F; }
+  html[data-theme=dark] .theme-toggle .i-sun { display: block; }
+  html[data-theme=dark] .theme-toggle .i-moon { display: none; }
+  footer { text-align: center; color: var(--muted); font-size: 14px; margin-top: 26px; }
+  @media (max-width: 600px) { section { padding: 18px 16px; } header h1 { font-size: 21px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="/static/logo.png" alt="">
+    <h1>Bankfull and Mean-flow Channel Geometry for CONUS</h1>
+  </header>
+
+  <div class="top">
+    <a class="back" href="/">← Back to the map and downloads</a>
+    <button class="theme-toggle" id="theme" type="button" aria-label="Switch theme" title="Switch theme">
+      <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M21 14.5A8.5 8.5 0 0 1 9.5 3a.6.6 0 0 0-.8-.7A10 10 0 1 0 21.7 15.3a.6.6 0 0 0-.7-.8z"/></svg>
+      <svg class="i-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></g></svg>
+    </button>
+  </div>
+
+  <nav class="toc" aria-label="On this page">
+    <a href="#about">About the dataset</a>
+    <a href="#method">How it was made</a>
+    <a href="#contents">What you get</a>
+    <a href="#use">How to access it</a>
+    <a href="#notes">Good to know</a>
+    <a href="#cite">How to cite</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section id="about">
+    <h2>About the dataset</h2>
+    <p>
+      This dataset provides machine-learning estimates of <strong>bankfull width, bankfull depth,
+      mean-flow width, and mean-flow depth</strong> for river reaches of the National Hydrography
+      Dataset Plus Version 2.1 (NHDPlusV2.1) across the conterminous United States (CONUS), and for
+      the USGS stream gages located on those reaches.
+    </p>
+    <p>
+      Channel dimensions like these are needed for flood inundation mapping, channel routing, and
+      hydrologic and hydraulic modeling, but they are measured at only a small fraction of rivers.
+      This dataset fills that gap with consistent estimates for about 2.6 million reaches.
+    </p>
+  </section>
+
+  <section id="method">
+    <h2>How it was made</h2>
+    <ol>
+      <li>
+        <strong>Training data.</strong> Channel and flow measurements from the USGS HYDRoSWOT
+        dataset, collected at more than 10,000 stream gages, were cleaned and quality-controlled.
+        Bankfull and mean-flow observations were then identified at each gage.
+      </li>
+      <li>
+        <strong>Models.</strong> For each of the four variables, two model types were built: one
+        using discharge measured at the gages, and one using the mean annual flow from NHDPlusV2.1,
+        which is available for every reach. Each was trained with Multi-Linear Regression, Random
+        Forest Regression, and eXtreme Gradient Boosting Regression (XGBoost).
+      </li>
+      <li>
+        <strong>Independent evaluation.</strong> Mean-flow estimates were checked against US Army
+        Corps of Engineers eHydro surveys, and bankfull estimates against regional survey data from
+        11 published sources.
+      </li>
+      <li>
+        <strong>Application.</strong> The XGBoost model based on NHDPlusV2.1 mean annual flow was
+        applied to NHDPlusV2.1 reaches across CONUS to produce this dataset.
+      </li>
+    </ol>
+    <p>
+      Full details are in the paper (see <a href="#cite">How to cite</a>), and the code is in the
+      <a href="https://github.com/Reizrb/Bankfull-and-mean-flow-channel-geometry-for-CONUS" target="_blank" rel="noopener">research repository</a>.
+    </p>
+  </section>
+
+  <section id="contents">
+    <h2>What you get</h2>
+    <div class="tablewrap">
+    <table>
+      <tr><th>Column</th><th>Description</th><th>Units</th></tr>
+      <tr><td><code>bnk_width</code></td><td>Bankfull width</td><td>m</td></tr>
+      <tr><td><code>bnk_depth</code></td><td>Bankfull depth</td><td>m</td></tr>
+      <tr><td><code>mf_width</code></td><td>Mean-flow width</td><td>m</td></tr>
+      <tr><td><code>mf_depth</code></td><td>Mean-flow depth</td><td>m</td></tr>
+    </table>
+    </div>
+    <p>
+      <strong>River reaches</strong> also include their <code>comid</code>, <code>reachcode</code>,
+      <code>state</code>, <code>huc2</code>, <code>huc8</code>, <code>stream_order</code>, and total
+      drainage area <code>tot_da_sqkm</code> (km²).
+      <strong>USGS gages</strong> also include <code>site_no</code>, <code>station_nm</code>, the
+      <code>comid</code> of the reach they are on, <code>reachcode</code>, <code>state</code>, HUC
+      codes, drainage area <code>da_sqkm</code> (km²), <code>lat</code>, and <code>lon</code>.
+    </p>
+    <p>
+      The service covers all 2,691,339 NHDPlusV2.1 reaches in the release (2,642,259 of them have
+      predictions) and 28,164 USGS gages.
+    </p>
+  </section>
+
+  <section id="use">
+    <h2>How to access it</h2>
+    <h3>This website</h3>
+    <p>
+      On the <a href="/">main page</a>, choose river reaches or USGS gages, pick an area (a HUC8
+      watershed, a state, a HUC2 region, a list of IDs, an area you draw on the map, or a shapefile
+      you upload), choose a format, and download.
+    </p>
+    <div class="tablewrap">
+    <table>
+      <tr><th>Format</th><th>Contents</th><th>Records per download</th></tr>
+      <tr><td>CSV</td><td>Values only, no line shapes</td><td>up to 500,000</td></tr>
+      <tr><td>GeoJSON</td><td>Values plus reach lines or gage points</td><td>up to 50,000</td></tr>
+      <tr><td>Shapefile</td><td>Values plus reach lines or gage points (zipped)</td><td>up to 50,000</td></tr>
+    </table>
+    </div>
+    <h3>Python</h3>
+    <p>
+      The <a href="https://github.com/Reizrb/HydroGeomKit" target="_blank" rel="noopener">HydroGeomKit</a>
+      package gets the data straight into pandas or GeoPandas:
+      <code>pip install "git+https://github.com/Reizrb/HydroGeomKit"</code>, then
+      <code>get_channel_geometry(huc8="03160112")</code>.
+    </p>
+    <h3>Any language</h3>
+    <p>
+      Send requests to the API from R, the command line, or any other tool. See the
+      <a href="/docs">interactive API documentation</a> and the
+      <a href="https://github.com/Reizrb/HydroGeomAPI" target="_blank" rel="noopener">HydroGeomAPI repository</a>
+      for examples.
+    </p>
+    <h3>The full dataset</h3>
+    <p>
+      To download everything at once, use
+      <a href="https://doi.org/10.5281/zenodo.19208847" target="_blank" rel="noopener">Zenodo</a> or
+      <a href="https://www.hydroshare.org/resource/1a2e115c212f4f4a80660f94339205e6/" target="_blank" rel="noopener">HydroShare</a>.
+    </p>
+  </section>
+
+  <section id="notes">
+    <h2>Good to know</h2>
+    <ul>
+      <li>These are <strong>model estimates</strong>, not field measurements. Where surveyed channel
+        dimensions are available for your site, they should take priority.</li>
+      <li>Reaches and gages <strong>without a prediction</strong> are still included, with empty width
+        and depth values.</li>
+      <li>HUC codes, reach codes, and USGS site numbers keep their <strong>leading zeros</strong>
+        (for example <code>03160112</code>). Excel removes them when opening a CSV, so import those
+        columns as text.</li>
+      <li>Geometries are in <strong>NAD83 (EPSG:4269)</strong>, the NHDPlusV2.1 coordinate system.</li>
+      <li>Shapefile column names are limited to 10 characters, so <code>stream_order</code> becomes
+        <code>stream_ord</code> and <code>tot_da_sqkm</code> becomes <code>tot_da_sqk</code>.</li>
+      <li>The service runs on a small server. Most requests take a few seconds; a whole state or
+        HUC2 region can take a minute or more.</li>
+    </ul>
+  </section>
+
+  <section id="cite">
+    <h2>How to cite</h2>
+    <p>If you use this dataset, please cite the paper and the dataset:</p>
+    <div class="cite">
+      Zarrabi, R., McDermott, R., Erfani, S. M. H., &amp; Cohen, S. (2025). Bankfull and mean-flow
+      channel geometry estimation through machine learning algorithms across the CONtiguous United
+      States (CONUS). <em>Water Resources Research</em>, 61(2).
+      <a href="https://doi.org/10.1029/2024WR037997" target="_blank" rel="noopener">https://doi.org/10.1029/2024WR037997</a>
+    </div>
+    <div class="cite">
+      Dataset: <a href="https://doi.org/10.5281/zenodo.19208847" target="_blank" rel="noopener">https://doi.org/10.5281/zenodo.19208847</a>
+    </div>
+    <p>The data are licensed under <strong>CC-BY-4.0</strong>, and the code under the MIT license.</p>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2>Questions or requests</h2>
+    <p>
+      If you have questions about the dataset, find a problem, or would like a new feature or
+      download option, please contact Reihaneh Zarrabi:
+    </p>
+    <p><a class="mail" href="mailto:rzarrabi@crimson.ua.edu">rzarrabi@crimson.ua.edu</a></p>
+  </section>
+
+  <footer>
+    Surface Dynamics Modeling Lab, University of Alabama ·
+    <a href="https://github.com/Reizrb/HydroGeomAPI" target="_blank" rel="noopener">Source code</a>
+  </footer>
+</div>
+<script>
+  const btn = document.getElementById("theme");
+  btn.addEventListener("click", () => {
+    const t = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = t;
+    try { localStorage.setItem("cg-theme", t); } catch (e) {}
+  });
+</script>
+</body>
+</html>

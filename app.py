@@ -162,6 +162,12 @@ def _load_spatial(db):
 _load_spatial(_DB)
 
 
+@app.get("/about", include_in_schema=False)
+def about():
+    """About the data: how it was made, how to cite, and contact."""
+    return FileResponse(STATIC / "about.html")
+
+
 def con():
     """A cursor on the shared database (safe to use from several requests at once)."""
     return _DB.cursor()
