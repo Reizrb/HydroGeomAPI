@@ -1,0 +1,20 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Data files (too large for GitHub; get them from Zenodo, then build with prepare_data.py)
+*.parquet
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+*.qmd
+*.xml
+*.csv
+*.zip
+
+# macOS
+.DS_Store
